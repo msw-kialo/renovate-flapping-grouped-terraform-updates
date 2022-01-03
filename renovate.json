@@ -1,0 +1,33 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:base"
+  ],
+
+  "enabledManagers": ["terraform", "regex"],
+
+  "regexManagers": [
+    {
+      "description": "Update _VERSION references",
+      "fileMatch": ["versions\\.sh$"],
+      "matchStrings": [
+        "# renovate: datasource=(?<datasource>[a-z-]+?) depName=(?<depName>[^\\s]+?)\\s.+?_VERSION=[\"']?(?<currentValue>.+?)[\"']?\\s"
+      ]
+    }
+  ],
+
+  "packageRules": [
+    {
+      "description": "Group terraform plugin updates",
+      "matchManagers": ["terraform"],
+      "groupName": "terraform",
+      "rangeStrategy": "update-lockfile"
+    },
+
+    {
+      "description": "Group terraform version into plugins updates",
+      "matchPackageNames": ["hashicorp/terraform"],
+      "groupName": "terraform"
+    }
+  ]
+}
