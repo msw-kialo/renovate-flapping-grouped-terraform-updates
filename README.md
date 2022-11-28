@@ -10,6 +10,8 @@ Terraform provider upgrades should be grouped together. Furthermore, the Terrafo
 
 One each run, Renovate flags the branch state from the correct upgrades to only the terraform lockfile upgrades (forgetting the regex file changes) and back. It is noisy and requires care to merge this upgrade at the right state.
 
+However, the branch cache appears to skip invoking this loop at the moment. I am still trying to retrigger it (maybe commits on the base branch will do).
+
 Furthermore, it makes it impossible to request the upgrade out-of-schedule if `prCreation` is set to `not-pending`: it would require two runs with the same outcome.
 
 ## Renovate Log
@@ -57,6 +59,6 @@ DEBUG: git push (repository=msw-kialo/renovate-flapping-grouped-terraform-update
 
 ```
 
-As seen in the log, the regex manager correctly determines the branch is out-to-date, but the Terraform artifacts are updated and only these change are committed and pushed afterwards.
+As seen in the log, the regex manager correctly determines the branch is out-to-date, but the Terraform artifacts are updated and only these changes are committed and pushed afterwards.
 
 Note the difference between `2 file(s) to commit` and the wrong commit that only includes the one artifact file.
